@@ -1,0 +1,539 @@
+import java.util.ArrayList; 
+import java.util.Scanner; 
+
+public class salescomputation { 
+    
+static ArrayList<String> transactions = new ArrayList<>(); 
+static Scanner input = new Scanner(System.in); 
+static int transactionCount = 0; // This is for a loop wherein the transaction number will increase depending on the user 
+public static void main(String[] args) { 
+
+    // MGA KULANG
+    // I-ARRAY ANG MGA VARIABLES NA PWEDE IARRAY, MAKE USE OF ARRAY AND ARRAYLIST IF APPLICABLE. HANAPIN MGA PWEDENG IARRAY
+    // IF MAY MGA LINE OF CODES OR METHODS NA PWEDE PAIKLIIN, GAWIN
+
+    while (true) { 
+
+        // Display welcome and user input prompts 
+        System.out.println("                [ Welcome to Sales Computation !!! ]");
+        System.out.println();
+        printDivider1();
+        System.out.println(" This program will help you calculate your total sales and discounts.");
+        System.out.println("       We'll calculate the tax and discounts automatically.");
+        System.out.println("             Don't forget to review the final total!");
+        printDivider1();
+        System.out.println(); 
+
+    while (true) 
+    {   
+        printDivider1(); 
+        System.out.println("                 Do you want to proceed (Yes/No)?");
+        printDivider1(); 
+        System.out.println(); 
+        System.out.print("Enter here: "); 
+        String userChoice = input.next(); 
+
+        if (userChoice.equalsIgnoreCase("no")) 
+        { printDivider1(); 
+        System.out.println("Thank You!"); 
+        input.close(); 
+        System.exit(0); } 
+
+        else if (userChoice.equalsIgnoreCase("yes")) 
+        { break; } 
+
+        else 
+        { System.out.println("Invalid input! Please enter 'Yes' or 'No'."); } 
+    } 
+
+
+        System.out.println(); 
+        printDivider1(); 
+        System.out.println("         Please Provide the Required Details to Proceed:"); 
+        printDivider1(); 
+        System.out.println(); 
+
+        // Get user details 
+        printDivider2(); 
+        String name = getName(); 
+        String lastname = getNameLast(); 
+        int age = getAge(); 
+        String gender = getGender(); 
+        printDivider2(); 
+        System.out.println(); 
+        System.out.println("                         SALE COMPUTATION");
+        System.out.println("                        [1] Compute Product");
+        System.out.println("                     [2] View All Transactions"); 
+        System.out.println("                            [0] Exit");
+        System.out.println(); 
+        String selectedOption; 
+
+    do { 
+        System.out.print("Enter: "); 
+        selectedOption = input.next(); 
+        System.out.println(); 
+
+        switch (selectedOption)     
+    { 
+        case "1": 
+            // Show product table after user selects to compute a product 
+            printProductTable(); 
+            char productClassSelected; 
+
+    do { productClassSelected = getProductClass(input); 
+
+        switch (productClassSelected) 
+    { 
+        case 'A': 
+        proccess_A_class(input, name, lastname, age, gender, productClassSelected); 
+        break; 
+        case 'B': 
+        proccess_B_class(input, name, lastname, age, gender, productClassSelected); 
+        break; 
+        default: 
+        System.out.println("Invalid input! Please enter 'A' or 'B'."); 
+        productClassSelected = '\0'; // Reset to ensure retry 
+    } 
+
+    } while (productClassSelected != 'A' && productClassSelected != 'B'); 
+
+
+    // Ask if the user wants to continue or exit 
+
+    while (true) 
+    { 
+        System.out.print("Do you want another transaction (Yes/No)? Enter here: "); 
+        String userChoice = input.next(); 
+
+        if (userChoice.equalsIgnoreCase("no")) 
+        { printDivider1(); 
+        System.out.println("Thank You!"); 
+        input.close(); 
+        System.exit(0); } 
+
+        else if (userChoice.equalsIgnoreCase("yes")) 
+        {   System.out.println("Restarting from the beginning...\n");
+            printDivider2(); 
+            getName(); 
+            getNameLast(); 
+            getAge(); 
+            getGender(); 
+            printDivider2();
+            displaySaleComputationMenu(); 
+        break; } 
+
+        else 
+        { System.out.println("Invalid input! Please enter 'Yes' or 'No'."); } 
+    } 
+        break; 
+
+        case "2": 
+        printAllTransactions(); 
+        break; 
+
+        case "0": 
+        printDivider1(); 
+        System.out.println("Thank You!"); 
+        input.close(); 
+        System.exit(0); 
+
+        default: 
+        System.out.println(" INVALID!!! [1], [2], AND [0] Only"); 
+        printDivider1(); 
+
+            } 
+        }   while (!selectedOption.equals("0")); 
+    } 
+} 
+
+
+// =========================== Display methods =============================== 
+            static void displaySaleComputationMenu() {
+        System.out.println();
+        System.out.println("SALE COMPUTATION");
+        System.out.println("[1] Compute Product");
+        System.out.println("[2] View All Transactions");
+        System.out.println("[0] Exit"); 
+        System.out.println();}
+            
+        static void printDivider1() 
+        {System.out.println("===================================================================" );} 
+        
+        static void printDivider2() 
+        {System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");} 
+        
+        static void printPrice(int rawPriceProduct) 
+        {System.out.println("Price: " + rawPriceProduct);} 
+        
+        static void printDiscount(double discount) 
+        {System.out.println("Discount Amount: " + discount);} 
+       
+        static void printTotalPrice(int priceProduct) 
+        {System.out.println("Total Price: " + priceProduct);} 
+
+// ======================= GETTER METHODS ==================================== 
+
+            static String getName() 
+        {System.out.print("Enter First Name: "); 
+        String name = input.nextLine(); 
+        if (name.isEmpty()) { name = input.nextLine(); } 
+        return name;} 
+
+// ---------------------------------------------------------------------------- 
+
+            static String getNameLast() 
+        {System.out.print("Enter Last Name: "); 
+        return input.next();} 
+
+// ---------------------------------------------------------------------------- 
+
+            static int getAge() 
+        {System.out.print("Enter Age: "); 
+        while (!input.hasNextInt()) 
+        { 
+        System.out.println("Invalid input! Please enter a valid age:"); 
+        input.next();// Consume the invalid input 
+        } 
+        return input.nextInt();} 
+
+// ---------------------------------------------------------------------------- 
+
+            static String getGender() 
+        {input.nextLine();// Consume the newline left by nextInt() 
+        while (true) 
+        { 
+        System.out.print("Enter Gender (M/F): "); 
+        String gender = input.nextLine().trim().toUpperCase();// Trim spaces and convert to uppercase 
+        
+        if (gender.equals("M") || gender.equals("F")) 
+        {return gender;} 
+        
+        else 
+        {System.out.println("Invalid input! Please choose 'M' or 'F'.");} 
+        } 
+        } 
+        
+// ---------------------------------------------------------------------------- 
+
+            static char getProductClass(Scanner input) 
+        {System.out.println(); 
+        System.out.println("======= Select Product Class ======="); 
+        System.out.println("[A] \n[B]"); 
+        System.out.println(); 
+        System.out.print("Enter Class: ");// Consume the newline character left by nextInt() 
+        return Character.toUpperCase(input.next().charAt(0));} 
+
+// ---------------------------------------------------------------------------- 
+
+            static int getQuantityProduct(Scanner input) 
+        {System.out.print("Enter Product Quantity: "); 
+        return input.nextInt();} 
+
+// ---------------------------------------------------------------------------- 
+
+            static int getProductNumber(Scanner input) 
+        {System.out.println(); 
+        System.out.print("Enter Product Number: "); 
+        return input.nextInt();} 
+
+// ---------------------------------------------------------------------------- 
+
+        public static void printAllTransactions() {
+                
+            while (true) {
+                System.out.println("===================================================================");
+                System.out.println("[All Transactions]");
+                System.out.println();
+
+                if (transactions.isEmpty()) {
+                    System.out.println("No transactions found.");
+                     return;}
+
+                System.out.println("How would you like to filter transactions?");
+                System.out.println();
+                System.out.println("[1] View All");
+                System.out.println("[2] By Product Class");
+                System.out.println("[3] By Product Number");
+                System.out.println("[4] By Price");
+                System.out.println("[5] By Discount");
+                System.out.println("[6] By Client Name");
+                System.out.println("[0] Exit Program");
+                System.out.println();
+                System.out.print("Enter your choice: ");
+                String choice = input.next();
+                input.nextLine(); // Consume newline
+
+                if (choice.equals("0")) {
+                    System.out.println("Exiting program...");
+                    System.exit(0); }
+
+                switch (choice) {
+                    case "1":
+                        System.out.println();
+                        displayTransactions(transactions);
+                        break;
+                    case "2":
+                        System.out.println();
+                        System.out.print("Enter Product Class (A/B): ");
+                        filterTransactions("Class", input.nextLine());
+                        break;
+                    case "3":
+                        System.out.println();
+                        System.out.print("Enter Product Number: ");
+                        filterTransactions("Product No", input.nextLine());
+                        break;
+                    case "4":
+                        System.out.println();
+                        System.out.print("Enter Price: ");
+                        filterTransactions("Total", input.nextLine());
+                        break;
+                    case "5":
+                        System.out.println();
+                        System.out.print("Enter Discount Amount: ");
+                        filterTransactions("Discount", input.nextLine());
+                        break;
+                    case "6":
+                        System.out.println();
+                        System.out.print("Enter Client First Name: ");
+                        String firstName = input.nextLine().trim(); // Nag rread ng first name and trim spaces
+                        System.out.print("Enter Client Last Name: ");
+                        String lastName = input.nextLine().trim(); // Nag rread ng first name and trim spaces
+                        String fullName = firstName + " " + lastName; // Combine first and last name
+                        System.out.println();
+                        filterTransactions("Full Name", fullName); // Pass full name to filter function
+                        break;
+                    default:
+                        System.out.println();
+                        System.out.println("Invalid input. Please try again.");
+                        System.out.println(); }
+
+                // Ask the user if they want to filter again or exit
+            while (true) {
+                System.out.println("===================================================================");
+                System.out.println();
+                System.out.println("[1] Filter Again");
+                System.out.println("[0] Exit Program");
+                System.out.println();
+                System.out.print("Enter your choice: ");
+
+
+                String filterChoice = input.nextLine().trim();
+                 if (filterChoice.equals("1")) {
+                    break; }// Restart filtering
+                        else if (filterChoice.equals("0")) {
+                            // Exit to the main menu
+                            displaySaleComputationMenu();
+                            return; }// Exit the printAllTransactions method
+                                   else { System.out.println("Invalid input. Please enter 1 to filter again or 0 to exit."); }
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------- 
+       
+       private static void displayTransactions(ArrayList<String> filteredTransactions) {
+                for (String transaction : filteredTransactions) {
+                System.out.println(transaction); } }
+        
+// ----------------------------------------------------------------------------         
+        
+private static void filterTransactions(String criteria, String filterValue) {
+    ArrayList<String> filteredTransactions = new ArrayList<>();
+    filterValue = filterValue.trim(); // Trim spaces from the input
+
+    for (String transaction : transactions) {
+        if (criteria.equalsIgnoreCase("Total")) {
+            // Extract the "Final Price" from the transaction
+            String[] lines = transaction.split("\n");
+            for (String line : lines) {
+                if (line.contains("Final Price:")) {
+                    String finalPriceString = line.split(":")[1].trim(); // Extract the price value
+                    if (finalPriceString.equals(filterValue)) {
+                        filteredTransactions.add(transaction);
+                    }
+                }
+            }
+        } else {
+            // Default behavior for other criteria
+            String lowerTransaction = transaction.toLowerCase();
+            if (lowerTransaction.contains(criteria.toLowerCase() + ": " + filterValue.toLowerCase())) {
+                filteredTransactions.add(transaction);
+            }
+        }
+    }
+
+    if (filteredTransactions.isEmpty()) {
+        System.out.println("No transactions found with " + criteria + " = " + filterValue);
+    } else {
+        displayTransactions(filteredTransactions);
+    }
+}
+
+// ======================= Calculation methods ============================= 
+
+            static int computeQuantityProductPrice(int quantityProduct, int rawPriceProduct) 
+        { return quantityProduct * rawPriceProduct; } 
+            static double computeDiscountAmount(int priceProduct, double discountPercentage) 
+        { return priceProduct * discountPercentage; } 
+            static double computeDiscountedSales(int priceProduct, double discount) 
+        { return priceProduct - discount; } 
+
+// =============================== CLASS A Method =================================== 
+//changes return type to void 
+//added parameters 
+
+        static void proccess_A_class(Scanner input, String name, String lastName, int age, String gender, char productClassSelected) 
+        { 
+        int productNumber, quantityProduct, rawPriceProduct = 0, priceProduct; 
+        double discountPercentage = 0, discountAmount, finalPrice;//added **** 
+
+        System.out.println();
+        System.out.println("============================== A Class ================================");
+        System.out.println("                   Product number range (100 - 130)");
+        System.out.println("=======================================================================");
+       
+        while (true) 
+        { 
+                productNumber = getProductNumber(input); 
+
+            if (productNumber >= 100 && productNumber <= 109) 
+            {discountPercentage = 0.05; 
+            rawPriceProduct = 120; 
+            break;} 
+
+            else if (productNumber >= 110 && productNumber <= 119) 
+            {discountPercentage = 0.075; 
+            rawPriceProduct = 135; 
+            break;} 
+
+            else if (productNumber >= 120 && productNumber <= 130) 
+            {discountPercentage = 0.10; 
+            rawPriceProduct = 150; 
+            break;} 
+
+            else 
+            {System.out.println("Invalid range! Try again (100 - 130)");} 
+        } 
+
+            printPrice(rawPriceProduct); 
+            quantityProduct = getQuantityProduct(input); 
+            priceProduct = computeQuantityProductPrice(quantityProduct, rawPriceProduct); 
+            printTotalPrice(priceProduct); 
+
+            discountAmount = computeDiscountAmount(priceProduct, discountPercentage); 
+            printDiscount(discountAmount);
+            
+            finalPrice = computeDiscountedSales(priceProduct, discountAmount); 
+            printReceipt(name, lastName, age, gender, priceProduct, finalPrice, productClassSelected, 
+            productNumber, quantityProduct, discountAmount);       
+        } 
+
+// ============================== CLASS B METHOD ===================================== 
+//changes return type to void 
+//added parameters 
+
+        static void proccess_B_class(Scanner input, String name, String lastName, int age, String gender, char productClassSelected) 
+        {    
+            int productNumber, quantityProduct, rawPriceProduct = 0, priceProduct; 
+            double discountPercentage = 0, discountAmount, finalPrice;//added **** 
+
+            System.out.println();
+            System.out.println("============================== B Class ================================");
+            System.out.println("                   Product number range (220 - 250)");
+            System.out.println("=======================================================================");
+
+        while (true) 
+        { 
+            productNumber = getProductNumber(input); 
+
+            if (productNumber >= 220 && productNumber <= 229) 
+            {discountPercentage = 0.15; 
+            rawPriceProduct = 100; 
+            break;} 
+
+            else if (productNumber >= 230 && productNumber <= 239) 
+            {discountPercentage = 0.175; 
+            rawPriceProduct = 140; 
+            break;} 
+
+            else if (productNumber >= 240 && productNumber <= 250) 
+            {discountPercentage = 0.20; 
+            rawPriceProduct = 170; 
+            break;} 
+
+            else 
+            {System.out.println("Invalid range! Try again (220 - 250)");} 
+            } 
+
+            printPrice(rawPriceProduct); 
+            quantityProduct = getQuantityProduct(input); 
+            priceProduct = computeQuantityProductPrice(quantityProduct, rawPriceProduct); 
+            printTotalPrice(priceProduct); 
+
+            discountAmount = computeDiscountAmount(priceProduct, discountPercentage); 
+            printDiscount(discountAmount); 
+
+            finalPrice = computeDiscountedSales(priceProduct, discountAmount); 
+            printReceipt(name, lastName, age, gender, priceProduct, finalPrice, productClassSelected, 
+            productNumber, quantityProduct, discountAmount); 
+            } 
+
+// =============================== RECEIPT DISPLAY ========================= 
+// added parameters , call the parameters inside the out print 
+
+       
+     
+        static void printReceipt(String name, String lastName, int age, String gender, int priceProduct, double computedPrice, char productClass, int productNumber, int quantityProduct, double discountAmount) 
+        {      
+            transactionCount++;
+            System.out.println();
+            String transaction = 
+                            
+            "                   ----- Transaction #" + transactionCount + " " + "-----" + "\n" +
+            "                         Full Name: " + name + " " + lastName + "\n" +
+            "                         First Name: " + name + " "  + "\n" + 
+            "                         Last  Name: " + " " + lastName + "\n" + 
+            "                         Age: " + age + "\n" + 
+            "                         Gender: " + gender + "\n" +   
+            "                         Class: " + productClass + "\n" + 
+            "                         Product No: " + productNumber + "\n" + 
+            "                         Quantity: " + quantityProduct + "\n" + 
+            "                         Total: " + priceProduct + "\n" + 
+            "                         Discount: " + String.format("%.2f", discountAmount) + "\n" + 
+            "                         Final Price: " + String.format("%.2f", computedPrice) +
+            "\n";
+               
+            transactions.add(transaction); // Store transaction for later retrieval  
+            printDivider1(); 
+            System.out.println(); 
+            System.out.println("                            [RECEIPT]:"); 
+            System.out.println(); 
+            System.out.println(transaction); // Print  
+            printDivider1(); 
+            System.out.println(); 
+        
+        } 
+
+
+// =============================== PRODUCT TABLE ============================= 
+static void printProductTable() 
+    {
+        System.out.println("-----------------------------------------------------------------------");
+        System.out.println("|   Product Class   |   Product No.   |     Price    |    Discount    |");          
+        System.out.println("----------------------------------------------------------------------|");
+        System.out.println("|         A         |     100-109     |     120.00   |       5%       |");
+        System.out.println("----------------------------------------------------------------------|");
+        System.out.println("|                   |     110-119     |     135.00   |       7.5%     |");
+        System.out.println("----------------------------------------------------------------------|");
+        System.out.println("|                   |     120-130     |     150.00   |       10%      |");
+        System.out.println("----------------------------------------------------------------------|");
+        System.out.println("|         B         |     220-229     |     100.00   |       15%      |");
+        System.out.println("----------------------------------------------------------------------|");
+        System.out.println("|                   |     230-239     |     140.00   |       17.5%    |");
+        System.out.println("----------------------------------------------------------------------|");
+        System.out.println("|                   |     240-250     |     170.00   |       20%      |");
+        System.out.println("-----------------------------------------------------------------------");
+        
+    }
+
+}
