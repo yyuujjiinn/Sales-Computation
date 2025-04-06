@@ -1,3 +1,4 @@
+
 import java.util.ArrayList; 
 import java.util.Scanner; 
 
@@ -317,7 +318,7 @@ public static void main(String[] args) {
                     System.out.println("===================================================================");
                     System.out.println();
                     System.out.println("[1] Filter Again");
-                    System.out.println("[0] Exit Program");
+                    System.out.println("[0] Return to Main Menu");
                     System.out.println();
                     System.out.print("Enter your choice: ");
 
@@ -500,7 +501,7 @@ private static void filterTransactions(String criteria, String filterValue) {
             "                         First Name: " + name + " "  + "\n" + 
             "                         Last  Name: " + " " + lastName + "\n" + 
             "                         Age: " + age + "\n" + 
-            "                         Gender: " + gender + "\n" +   
+            "                         Gender: " + gender + "\n" + 
             "                         Class: " + productClass + "\n" + 
             "                         Product No: " + productNumber + "\n" + 
             "                         Quantity: " + quantityProduct + "\n" + 
