@@ -1,6 +1,7 @@
-//UPDATED NA PACHECK NALANG PERDS KUNG TAMA, ANG INIBA KO LANG DITO IS MULA LINE 21-75
 package ComprogProject;
 
+// PACHEK NALANG MAY MGA KULANG PA RIN ATA DI KO SURE PERO OKS NA YUNG SA CALCULATION NAGPROPROCEED NA SIYA
+// MAY IBANG PART NA HINDI NAG SHOSHOW YUNG MENU NA "PLEASE CHOOSE 1,2 OR 0"
 import java.util.ArrayList; 
 import java.util.Scanner; 
 
@@ -11,13 +12,7 @@ static ArrayList<String> clients = new ArrayList<>(); // Store client informatio
 static Scanner input = new Scanner(System.in); 
 static int transactionCount = 0; // This is for a loop wherein the transaction number will increase depending on the user 
 public static void main(String[] args) {
-	System.out.println("                [ Welcome to Sales Computation !!! ]");
-    printDivider1();
-    System.out.println(" This program will help you calculate your total sales and discounts.");
-    System.out.println("       We'll calculate the tax and discounts automatically.");
-    System.out.println("             Don't forget to review the final total!");
-    printDivider1();
-    
+	    
     boolean shouldProceed = false;
     while (true) {
         System.out.print("Do you wish to proceed? (Yes/No): ");
@@ -40,40 +35,56 @@ public static void main(String[] args) {
     if (!shouldProceed) {
         return;  
     }
+	
+		while (true) {
+	        System.out.println("                [ Welcome to Sales Computation !!! ]");
+	        System.out.println();
+	        printDivider1();
+	        System.out.println(" This program will help you calculate your total sales and discounts.");
+	        System.out.println("       We'll calculate the tax and discounts automatically.");
+	        System.out.println("             Don't forget to review the final total!");
+	        printDivider1();
+	        System.out.println();
+
+	        
+	        displayMainMenu();
+
+	        String selectedOption;
+
+	        do {
+	            System.out.print("Enter: ");
+	            selectedOption = input.next();
+	            System.out.println();
+
+	            switch (selectedOption) {
+	                case "1": // Add Client Information
+	                    addClientInformation();
+	                    break;
+
+	                case "2": // New Transaction
+	                    newTransaction();
+	                    break;
+
+	                case "3": // View Transactions
+	                    printAllTransactions();
+	                    break;
+
+	                case "0": // Exit
+	                    printDivider1();
+	                    System.out.println("Thank You!");
+	                    input.close();
+	                    System.exit(0);
+
+	                default:
+	                    System.out.println("INVALID!!! [1], [2], [3], AND [0] Only");
+	                    printDivider1();
+	            }
+	        } while (!selectedOption.equals("0"));
+	    }
+	}
 
 
-    while (true) {
-        displayMainMenu();
-
-        String selectedOption;
-        do {
-            System.out.print("Enter: ");
-            selectedOption = input.next();
-            System.out.println();
-
-            switch (selectedOption) {
-                case "1":
-                    addClientInformation();
-                    break;
-                case "2":
-                    newTransaction();
-                    break;
-                case "3":
-                    printAllTransactions();
-                    break;
-                case "0":
-                    printDivider1();
-                    System.out.println("Thank You!");
-                    input.close();
-                    System.exit(0);
-                default:
-                    System.out.println("INVALID!!! [1], [2], [3], AND [0] Only");
-                    printDivider1();
-            }
-        } while (!selectedOption.equals("0"));
-    }
-}
-
+// Updated Main Menu Display
 static void displayMainMenu() {
     System.out.println();
     System.out.println("SALE COMPUTATION");
@@ -84,6 +95,7 @@ static void displayMainMenu() {
     System.out.println();
 }
 
+// =========================== Display methods =============================== 
 static void displaySaleComputationMenu() {
     System.out.println();
     System.out.println("SALE COMPUTATION");
@@ -96,8 +108,8 @@ static void displaySaleComputationMenu() {
     do {
         System.out.print("Enter: ");
         selectedOption = input.next();
-        System.out.println();
-
+        input.nextLine(); // Consume newline
+        
         switch (selectedOption) {
             case "1":
                 printProductTable();
@@ -105,16 +117,73 @@ static void displaySaleComputationMenu() {
                 do {
                     productClassSelected = getProductClass(input);
                     
-                    if (clients.isEmpty()) {
+                    // Check if clients exist by counting elements
+                    int clientCount = 0;
+                    for (String client : clients) {
+                        clientCount++;
+                    }
+                    if (clientCount == 0) {
                         System.out.println("Please add client information first!");
                         return;
                     }
                     
-                    String[] clientDetails = clients.get(clients.size()-1).split("\n");
-                    String name = clientDetails[0].split(":")[1].trim().split(" ")[0];
-                    String lastName = clientDetails[0].split(":")[1].trim().split(" ")[1];
-                    int age = Integer.parseInt(clientDetails[1].split(":")[1].trim());
-                    String gender = clientDetails[2].split(":")[1].trim();
+                    // Get first client info without .get()
+                    String clientInfo = "";
+                    for (String client : clients) {
+                        clientInfo = client;
+                        break;
+                    }
+                    
+                    // Process client info manually
+                    String name = "";
+                    String lastName = "";
+                    int age = 0;
+                    String gender = "";
+                    boolean readingName = false;
+                    boolean readingAge = false;
+                    boolean readingGender = false;
+                    int lineNumber = 0;
+                    
+                    // Process each character
+                    for (int i = 0; i < clientInfo.length(); i++) {
+                        char c = clientInfo.charAt(i);
+                        
+                        // Detect line breaks
+                        if (c == '\n') {
+                            lineNumber++;
+                            continue;
+                        }
+                        
+                        // Name line (line 0)
+                        if (lineNumber == 0 && i >= 6) { // Skip "Name: "
+                            if (c == ' ' && name.isEmpty()) {
+                                continue; // Skip space after colon
+                            }
+                            else if (c == ' ') {
+                                readingName = true; // Switch to last name
+                            }
+                            else if (!readingName) {
+                                name += c;
+                            }
+                            else {
+                                lastName += c;
+                            }
+                        }
+                        
+                        // Age line (line 1)
+                        if (lineNumber == 1 && i > clientInfo.indexOf('\n')) {
+                            if (c >= '0' && c <= '9') {
+                                age = age * 10 + (c - '0');
+                            }
+                        }
+                        
+                        // Gender line (line 2)
+                        if (lineNumber == 2 && i > clientInfo.lastIndexOf('\n')) {
+                            if (c == 'M' || c == 'F') {
+                                gender = String.valueOf(c);
+                            }
+                        }
+                    }
                     
                     if (productClassSelected == 'A') {
                         proccess_A_class(input, name, lastName, age, gender, productClassSelected);
@@ -122,7 +191,7 @@ static void displaySaleComputationMenu() {
                         proccess_B_class(input, name, lastName, age, gender, productClassSelected);
                     }
                 } while (productClassSelected != 'A' && productClassSelected != 'B');
-                return;
+                break;
                 
             case "2":
                 printAllTransactions();
@@ -609,21 +678,19 @@ static void newTransaction() {
     printProductTable();
     char productClassSelected;
 
-    do {
+    while (true) {
         productClassSelected = getProductClass(input);
 
-        switch (productClassSelected) {
-            case 'A':
-                proccess_A_class(input, name, lastName, age, gender, productClassSelected);
-                break;
-            case 'B':
-                proccess_B_class(input, name, lastName, age, gender, productClassSelected);
-                break;
-            default:
-                System.out.println("Invalid input! Please enter 'A' or 'B'.");
-                productClassSelected = '\0'; // Reset to ensure retry
+        if (productClassSelected == 'A') {
+            proccess_A_class(input, name, lastName, age, gender, productClassSelected);
+            break;
+        } else if (productClassSelected == 'B') {
+            proccess_B_class(input, name, lastName, age, gender, productClassSelected);
+            break;
+        } else {
+            System.out.println("Invalid input! Please enter 'A' or 'B'.");
         }
-    } while (productClassSelected != 'A' && productClassSelected != 'B');
-}
+    }
 
+}
 }
