@@ -542,7 +542,7 @@ static void printReceipt(String name, String lastName, int age, String gender, i
     System.out.println();
 
     // Ask the user what to do next
-    askClientAction();
+    askClientAction(name, lastName, age, gender);
 }
 
 // =============================== PRODUCT TABLE ============================= 
@@ -674,7 +674,7 @@ static void newTransaction() {
 }
 
 // =============================== ASK CLIENT ACTION =========================
-static void askClientAction() {
+static void askClientAction(String name, String lastName, int age, String gender) {
     while (true) {
         System.out.println("===================================================================");
         System.out.println("What would you like to do next?");
@@ -689,7 +689,17 @@ static void askClientAction() {
         switch (choice) {
             case "1": // Use the same client
                 System.out.println("Proceeding with the same client...");
+                printProductTable(); // Display the product table
+                char productClassSelected;
+                do {
+                    productClassSelected = getProductClass(input);
 
+                    if (productClassSelected == 'A') {
+                        proccess_A_class(input, name, lastName, age, gender, productClassSelected);
+                    } else if (productClassSelected == 'B') {
+                        proccess_B_class(input, name, lastName, age, gender, productClassSelected);
+                    }
+                } while (productClassSelected != 'A' && productClassSelected != 'B');
                 return;
 
             case "2": // Choose a different client
@@ -727,13 +737,13 @@ static void askClientAction() {
                     return;
                 }
 
-                String name = clientDetails[1].split(":")[1].trim().split(" ")[0];
-                String lastName = clientDetails[1].split(":")[1].trim().split(" ")[1];
-                int age = Integer.parseInt(clientDetails[2].split(":")[1].trim());
-                String gender = clientDetails[3].split(":")[1].trim();
+                String newName = clientDetails[1].split(":")[1].trim().split(" ")[0];
+                String newLastName = clientDetails[1].split(":")[1].trim().split(" ")[1];
+                int newAge = Integer.parseInt(clientDetails[2].split(":")[1].trim());
+                String newGender = clientDetails[3].split(":")[1].trim();
 
                 // Proceed to the SALE COMPUTATION menu with the selected client
-                displaySaleComputationMenu1(name, lastName, age, gender);
+                displaySaleComputationMenu1(newName, newLastName, newAge, newGender);
                 return;
 
             case "0": // Return to Main Menu
