@@ -345,7 +345,7 @@ public static void printAllTransactions() {
 
             case "4": // Filter by Price
                 System.out.println();
-                System.out.print("Enter Price: ");
+                System.out.print("Enter Final Price: ");
                 filterTransactions("Total", input.nextLine());
                 break;
 
