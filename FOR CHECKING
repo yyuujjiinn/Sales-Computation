@@ -269,19 +269,18 @@ public static void printAllTransactions() {
                 filterTransactions("Class", input.nextLine());
                 break;
 
-            case "3": // Filter by Product Number
+                case "3": // Filter by Product Number
                 System.out.println();
                 System.out.print("Enter Product Number: ");
                 filterTransactions("Product No", input.nextLine());
                 break;
-
+            
             case "4": // Filter by Price
                 System.out.println();
                 System.out.print("Enter Final Price: ");
-                String enteredPrice = input.nextLine().trim();
-                filterTransactions("Total", enteredPrice);
+                filterTransactions("Total", input.nextLine());
                 break;
-
+            
             case "5": // Filter by Discount
                 System.out.println();
                 System.out.print("Enter Discount Amount: ");
@@ -341,9 +340,10 @@ private static void filterTransactions(String criteria, String filterValue) {
     filterValue = filterValue.trim(); // Trim spaces from the input
 
     for (String transaction : transactions) {
+        String[] lines = transaction.split("\n");
+
         if (criteria.equalsIgnoreCase("Product No")) {
             // Extract the "Product Number" from the transaction
-            String[] lines = transaction.split("\n");
             for (String line : lines) {
                 if (line.contains("Product Number:")) {
                     String productNumberString = line.split(":")[1].trim(); // Extract the product number value
@@ -354,7 +354,6 @@ private static void filterTransactions(String criteria, String filterValue) {
             }
         } else if (criteria.equalsIgnoreCase("Discount")) {
             // Extract the "Discount Amount" from the transaction
-            String[] lines = transaction.split("\n");
             for (String line : lines) {
                 if (line.contains("Discount Amount:")) {
                     String discountString = line.split(":")[1].trim(); // Extract the discount value
@@ -366,6 +365,23 @@ private static void filterTransactions(String criteria, String filterValue) {
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid discount format. Please enter a valid numeric value.");
+                        return;
+                    }
+                }
+            }
+        } else if (criteria.equalsIgnoreCase("Total")) {
+            // Extract the "Final Price" from the transaction
+            for (String line : lines) {
+                if (line.contains("Final Price:")) {
+                    String finalPriceString = line.split(":")[1].trim(); // Extract the final price value
+                    try {
+                        double finalPrice = Double.parseDouble(finalPriceString); // Parse the final price
+                        double enteredPrice = Double.parseDouble(filterValue); // Parse the user-entered price
+                        if (finalPrice == enteredPrice) {
+                            filteredTransactions.add(transaction);
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid price format. Please enter a valid numeric value.");
                         return;
                     }
                 }
