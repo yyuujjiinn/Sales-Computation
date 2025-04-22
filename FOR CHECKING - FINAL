@@ -1,3 +1,5 @@
+package salescomputationfixed;
+
 import java.util.ArrayList; 
 import java.util.Scanner; 
 
@@ -22,7 +24,10 @@ public class Salescomputationfixed {
 
             boolean shouldProceed = false;
             while (true) {
-                System.out.print("Do you wish to proceed? (Yes/No): ");
+                System.out.println("                Instructions throughout the Program: ");
+                System.out.println("      Please Select from the following numbers and click Enter. ");
+                System.out.println();
+                System.out.print("              Do you wish to proceed? (Yes/No): ");
                 String proceed = input.nextLine().trim().toLowerCase();
                 
                 if (proceed.equals("yes")) {
@@ -35,7 +40,7 @@ public class Salescomputationfixed {
                     break;
                 }
                 else {
-                    System.out.println("Invalid input! Please enter 'Yes' or 'No'.");
+                    System.out.println("           Invalid input! Please enter 'Yes' or 'No'.");
                 }
             }
         
@@ -56,16 +61,17 @@ static void displayMainMenu() {
     
     do {
         System.out.println();
-        System.out.println("SALE COMPUTATION");
-        System.out.println("[1] Add Client Information");
-        System.out.println("[2] New Transaction");
-        System.out.println("[3] View Transactions");
-        System.out.println("[0] Exit");
+        System.out.println("                 What would you like to do today?");
+        System.out.println("                    [1] Add Client Information");
+        System.out.println("                    [2] New Transaction");
+        System.out.println("                    [3] View Transactions");
+        System.out.println("                    [0] Exit");
         System.out.println();
-        
+        printDivider1();
         System.out.print("Enter: ");
         selectedOption = input.next();
-        System.out.println();
+     
+      
 
         switch (selectedOption) {
             case "1": // Add Client Information
@@ -97,13 +103,15 @@ static void displayMainMenu() {
 // =========================== Display methods =============================== 
 static void displaySaleComputationMenu1(String name, String lastName, int age, String gender) {
     System.out.println();
-    System.out.println("SALE COMPUTATION");
-    System.out.println("[1] Compute Product");
-    System.out.println("[0] Return to Main Menu");
+    printDivider1();
+    System.out.println("                       TRANSACTION CENTER");
+    System.out.println("                      [1] Compute Product");
+    System.out.println("                      [0] Return to Main Menu");
     System.out.println();
 
     String selectedOption;
     do {
+        printDivider1();
         System.out.print("Enter: ");
         selectedOption = input.next();
         input.nextLine(); // Consume newline
@@ -586,7 +594,7 @@ static void printProductTable()
 static void addClientInformation() {
     while (true) {
         printDivider1();
-        System.out.println("Adding a new client...");
+        System.out.println("                       Adding a new client...");
         printDivider1();
 
         String name = getName();
@@ -597,10 +605,10 @@ static void addClientInformation() {
 
         // Increment client count and store client information
         clientCount++;
-        String clientInfo = "Client #" + clientCount + "\n" +
-                            "Name: " + name + " " + lastName + "\n" +
-                            "Age: " + age + "\n" +
-                            "Gender: " + gender;
+        String clientInfo = "                        Client #" + clientCount + "\n" +
+                            "                        Name: " + name + " " + lastName + "\n" +
+                            "                        Age: " + age + "\n" +
+                            "                        Gender: " + gender;
         clients.add(clientInfo);
 
         System.out.println();
@@ -615,17 +623,17 @@ static void addClientInformation() {
         // Ask the user whether to add another client or return to Main Menu
         while (true) {
             System.out.println();
-            System.out.print("Do you want to add another client? (Yes/No): ");
+            System.out.print("         Do you want to add another client? (Yes/No): ");
             String userChoice = input.next().trim().toLowerCase();
 
             if (userChoice.equals("yes")) {
                 break; // Continue the loop to add another client
             } else if (userChoice.equals("no")) {
-                System.out.println("Returning to the main menu...");
+                System.out.println("                  Returning to the main menu...");
                 displayMainMenu(); // Return to the main menu
                 return; // Exit the method
             } else {
-                System.out.println("Invalid input! Please enter 'Yes' or 'No'.");
+                System.out.println("             Invalid input! Please enter 'Yes' or 'No'.");
             }
         }
     }
@@ -669,6 +677,7 @@ static void newTransaction() {
     String selectedClient = clients.get(clientIndex);
     System.out.println();
     System.out.println("Selected Client: ");
+    System.out.println();
     System.out.println(selectedClient);
 
     // Extract client details
@@ -693,10 +702,10 @@ static void newTransaction() {
 static void askClientAction(String name, String lastName, int age, String gender) {
     while (true) {
         System.out.println("===================================================================");
-        System.out.println("What would you like to do next?");
-        System.out.println("[1] Use the same client");
-        System.out.println("[2] Choose a different client");
-        System.out.println("[0] Return to Main Menu");
+        System.out.println("                  What would you like to do next?");
+        System.out.println("                    [1] Use the same client");
+        System.out.println("                    [2] Choose a different client");
+        System.out.println("                    [0] Return to Main Menu");
         System.out.println("===================================================================");
         System.out.print("Enter your choice: ");
 
@@ -744,7 +753,8 @@ static void askClientAction(String name, String lastName, int age, String gender
                 }
 
                 String selectedClient = clients.get(clientIndex);
-                System.out.println("Selected Client: " + selectedClient);
+                System.out.println("Selected Client: ");
+                System.out.println(selectedClient);
 
                 // Extract client details
                 String[] clientDetails = selectedClient.split("\n");
@@ -771,4 +781,5 @@ static void askClientAction(String name, String lastName, int age, String gender
                 System.out.println("Invalid input! Please enter [1], [2], or [0].");
         }
     }
+}
 }
