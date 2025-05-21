@@ -1,5 +1,4 @@
 // PROBLEM ON VIEWING, DI NA DDISPLAY UNG VIEW BY PRODUCT CLASS AND BY CLIENT NAME
-// PROBLEM ON RECEIPT, PAG ANG ININPUT IS "RAEJZ EUGENE" sa first name and "MANUBAY" sa last name, ang napprint sa receipt is "RAEJZ EUGENE LANG"!!!
 
 package salescomputationfixed;
 
