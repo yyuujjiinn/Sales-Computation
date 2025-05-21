@@ -1,3 +1,8 @@
+// PROBLEM ON VIEWING, DI NA DDISPLAY UNG VIEW BY PRODUCT CLASS AND BY CLIENT NAME
+// PROBLEM ON RECEIPT, PAG ANG ININPUT IS "RAEJZ EUGENE" sa first name and "MANUBAY" sa last name, ang napprint sa receipt is "RAEJZ EUGENE LANG"!!!
+
+package salescomputationfixed;
+
 import java.util.ArrayList; 
 import java.util.Scanner; 
 
@@ -35,7 +40,7 @@ static void displayMainMenu() {
     do {
         System.out.println();
         System.out.println("SALE COMPUTATION");
-        System.out.println("Please select an option:");
+        System.out.println("Please select from the following option then press enter:");
         System.out.println("[1] Add Client Information");
         System.out.println("[2] New Transaction");
         System.out.println("[3] View Transactions");
@@ -67,7 +72,7 @@ static void displayMainMenu() {
                 System.exit(0);
 
             default:// Invalid input handling
-                System.out.println("INVALID!!! [1], [2], [3], AND [0] Only");
+                System.out.println("INVALID. Please enter [1], [2], [3], and [0] Only");
                 printDivider1();
         }
     } while (!selectedOption.equals("0"));
@@ -78,7 +83,7 @@ static void displayMainMenu() {
 static void displaySaleComputationMenu1(String name, String lastName, int age, String gender) {
     System.out.println();
     System.out.println("SALE COMPUTATION");
-    System.out.println("Please select an option:");
+    System.out.println("Please select from the following option then press enter:");
     System.out.println("[1] Compute Product");
     System.out.println("[0] Return to Main Menu");
     System.out.println();
@@ -235,7 +240,7 @@ public static void printAllTransactions() {
 
         // Display filtering options
         System.out.println("How would you like to filter transactions?");
-        System.out.println("Please select an option:");
+        System.out.println("Please select from the following option then press enter:");
         System.out.println();
         System.out.println("[1] View All");
         System.out.println("[2] By Product Class");
@@ -305,7 +310,7 @@ public static void printAllTransactions() {
 
         // Ask if the user wants to filter again or go back to main menu
         System.out.println();
-        System.out.println("Please select an option:");
+        System.out.println("Please select from the following option then press enter:");
         System.out.println("[1] Filter Again");
         System.out.println("[0] Go Back to Main Menu");
         System.out.print("Enter your choice: ");
@@ -521,18 +526,18 @@ static void printReceipt(String name, String lastName, int age, String gender, i
 
     // Format the transaction details as a table
     String transaction =
-        "              ----- Transaction #" + transactionCount + " -----\n" +
-        "+---------------------+-------------------------------+\n" +
-        String.format("| %-20s | %-29s |\n", "Full Name", name + " " + lastName) +
-        String.format("| %-20s | %-29d |\n", "Age", age) +
-        String.format("| %-20s | %-29s |\n", "Gender", gender) +
-        String.format("| %-20s | %-29s |\n", "Product Class", productClass) +
-        String.format("| %-20s | %-29d |\n", "Product Number", productNumber) +
-        String.format("| %-20s | %-29d |\n", "Quantity", quantityProduct) +
-        String.format("| %-20s | %-29.2f |\n", "Total Price", (double) priceProduct) +
-        String.format("| %-20s | %-29.2f |\n", "Discount Amount", discountAmount) +
-        String.format("| %-20s | %-29.2f |\n", "Final Price", computedPrice) +
-        "+---------------------+-------------------------------+\n";
+        "                ========== Transaction #" + transactionCount + " ==========\n" +
+        "         +-------------------+---------------------------+\n" +
+        String.format("         | %-17s | %-25s |\n", " Full Name:", name + " " + lastName) +
+        String.format("         | %-17s | %-25d |\n", " Age:", age) +
+        String.format("         | %-17s | %-25s |\n", " Gender:", gender) +
+        String.format("         | %-17s | %-25s |\n", " Product Class:", productClass) +
+        String.format("         | %-17s | %-25d |\n", " Product Number:", productNumber) +
+        String.format("         | %-17s | %-25d |\n", " Quantity:", quantityProduct) +
+        String.format("         | %-17s | %-25.2f |\n", " Total Price:", (double) priceProduct) +
+        String.format("         | %-17s | %-25.2f |\n", " Discount Amount:", discountAmount) +
+        String.format("         | %-17s | %-25.2f |\n", " Final Price:", computedPrice) +
+        "         +-------------------+---------------------------+\n";
 
     // Add the transaction to the list for later retrieval
     transactions.add(transaction);
@@ -540,7 +545,7 @@ static void printReceipt(String name, String lastName, int age, String gender, i
     // Print the receipt
     printDivider1();
     System.out.println();
-    System.out.println("                     [RECEIPT]:");
+    System.out.println("                            [RECEIPT]:");
     System.out.println();
     System.out.println(transaction); // Print the transaction details
     printDivider1();
@@ -690,6 +695,7 @@ static void askClientAction(String name, String lastName, int age, String gender
     while (true) {
         System.out.println("===================================================================");
         System.out.println("What would you like to do next?");
+        System.out.println("Please select from the following option then press enter:");
         System.out.println("[1] Use the same client");
         System.out.println("[2] Choose a different client");
         System.out.println("[0] Return to Main Menu");
